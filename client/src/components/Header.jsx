@@ -3,7 +3,7 @@ import { setGlobalState } from '../store'
 
 const Header = () => {
   return (
-    <header className="flex flex-row items-center justify-between drop-shadow-md p-5 bg-white">
+    <header className="flex flex-row items-center justify-between drop-shadow-md py-2 px-5 bg-white">
       <div className="flex flex-row justify-center items-center cursor-pointer">
         <img
           className="w-6 h-6 object-contain cursor-pointer"

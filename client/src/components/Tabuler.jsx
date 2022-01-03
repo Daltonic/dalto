@@ -2,11 +2,11 @@ import ethLogo from '../assets/ethlogo.png'
 
 const Tabuler = () => {
   return (
-    <section className="antialiased bg-gray-100 rounded-xl text-gray-600 p-5">
+    <section className="antialiased rounded-xl text-gray-600 p-5">
       <div className="flex flex-col justify-center h-full">
-        <div className="w-full md:w-2/3 md:w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-          <header className="px-5 py-4 border-b border-gray-100">
-            <h2 className="font-semibold text-gray-800">Recent Transactions</h2>
+        <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 bg-white shadow-2xl rounded-xl">
+          <header className="px-5 py-4">
+            <h2 className="font-semibold text-gray-800 text-center">Recent Transactions</h2>
           </header>
           <div className="p-3">
             <div className="overflow-x-auto">
