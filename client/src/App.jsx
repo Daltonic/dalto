@@ -1,9 +1,10 @@
+import AddTransactionCard from './components/AddTransactionCard'
 import Header from './components/Header'
 import Tabuler from './components/Tabuler'
 
 const App = () => {
   return (
-    <div className="flex flex-col space-y-4 h-screen bg-gray-100">
+    <div className="flex flex-col h-screen bg-gray-100">
       <Header />
       <Tabuler />
       <div className="text-center">
@@ -11,6 +12,7 @@ const App = () => {
           Load more
         </button>
       </div>
+      <AddTransactionCard />
     </div>
   )
 }
