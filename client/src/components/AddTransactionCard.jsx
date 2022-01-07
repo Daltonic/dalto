@@ -1,11 +1,40 @@
 import { useGlobalState, setGlobalState } from '../store'
+import { useState } from 'react'
+import { sendMoney } from '../shared/Transaction'
 
 const AddTransactionCard = () => {
   const [modal] = useGlobalState('modal')
+  const [connectedAccount] = useGlobalState('connectedAccount')
+  const [address, setAddress] = useState('')
+  const [amount, setAmount] = useState('')
+  const [remark, setRemark] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = () => {
+    if (!address || !amount || !remark) return
+    setLoading(true)
+
+    sendMoney({ connectedAccount, address, amount, remark })
+      .then(() => {
+        setGlobalState('transaction', { address, amount, remark })
+        setLoading(false)
+        setGlobalState('modal', '')
+        resetForm()
+      })
+      .catch((error) => {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  const resetForm = () => {
+    setAddress('')
+    setAmount('')
+    setRemark('')
+  }
 
   return (
     <div
-      // onClick={() => setGlobalState('modal', '')}
       className={`fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 transform scale-0 transition-transform duration-300 ${modal}`}
     >
       <div className="bg-white rounded-xl w-1/3 h-7/12 p-6">
@@ -37,7 +66,10 @@ const AddTransactionCard = () => {
             <input
               className="bg-transparent focus:outline-none w-full"
               type="text"
+              name="address"
               placeholder="Address To"
+              onChange={(e) => setAddress(e.target.value)}
+              value={address}
             />
           </div>
 
@@ -46,7 +78,10 @@ const AddTransactionCard = () => {
               className="bg-transparent focus:outline-none w-full"
               type="number"
               step={0.0001}
-              placeholder="Amount"
+              name="amount"
+              placeholder="Amount (Eth)"
+              onChange={(e) => setAmount(e.target.value)}
+              value={amount}
             />
           </div>
 
@@ -54,40 +89,52 @@ const AddTransactionCard = () => {
             <input
               className="bg-transparent focus:outline-none w-full"
               type="text"
+              name="remark"
               placeholder="Remark"
+              onChange={(e) => setRemark(e.target.value)}
+              value={remark}
             />
           </div>
 
           <div className="flex flex-row justify-between items-centerrounded-xl mt-5">
-            <button
-              onClick={() => setGlobalState('modal', '')}
-              className="flex flex-row justify-center items-center w-full text-white text-lg bg-blue-500 py-2 px-5 rounded-xl drop-shadow-xl border border-transparent hover:bg-transparent hover:text-blue-500 hover:border hover:border-blue-500 focus:outline-none focus:ring"
-              disabled
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30px"
-                height="30px"
-                viewBox="0 0 100 100"
-                preserveAspectRatio="xMidYMid"
+            {!loading ? (
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                className="flex flex-row justify-center items-center w-full text-white text-lg bg-blue-500 py-2 px-5 rounded-xl drop-shadow-xl border border-transparent hover:bg-transparent hover:text-blue-500 hover:border hover:border-blue-500 focus:outline-none focus:ring"
               >
-                <path
-                  d="M10 50A40 40 0 0 0 90 50A40 42 0 0 1 10 50"
-                  fill="white"
-                  stroke="none"
+                Send Money
+              </button>
+            ) : (
+              <button
+                className="flex flex-row justify-center items-center w-full text-white text-lg bg-blue-300 py-2 px-5 rounded-xl drop-shadow-xl border border-transparent focus:outline-none focus:ring"
+                disabled
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30px"
+                  height="30px"
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="xMidYMid"
                 >
-                  <animateTransform
-                    attributeName="transform"
-                    type="rotate"
-                    dur="1s"
-                    repeatCount="indefinite"
-                    keyTimes="0;1"
-                    values="0 50 51;360 50 51"
-                  ></animateTransform>
-                </path>
-              </svg>
-              Sending...
-            </button>
+                  <path
+                    d="M10 50A40 40 0 0 0 90 50A40 42 0 0 1 10 50"
+                    fill="white"
+                    stroke="none"
+                  >
+                    <animateTransform
+                      attributeName="transform"
+                      type="rotate"
+                      dur="1s"
+                      repeatCount="indefinite"
+                      keyTimes="0;1"
+                      values="0 50 51;360 50 51"
+                    ></animateTransform>
+                  </path>
+                </svg>
+                Sending...
+              </button>
+            )}
           </div>
         </div>
       </div>
