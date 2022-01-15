@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import ethLogo from '../assets/ethlogo.png'
 import Identicon from 'identicon.js'
-import faker from 'faker'
+import faker from '@faker-js/faker'
 import { getAllTransactions } from '../shared/Transaction'
 import { useGlobalState } from '../store'
 
